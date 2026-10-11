@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東涌天主教學校 - 小六數學互動教學遊戲總目錄</title>
+    <!-- Tailwind CSS CDN (用於快速現代化響應式佈局) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans HK', system-ui, -apple-system, sans-serif;
+            background-color: #F4F8FA;
+        }
+        .school-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 51, 102, 0.08), 0 8px 10px -6px rgba(0, 51, 102, 0.04);
+        }
+        .badge-domain-number { background-color: #EBF8FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
+        .badge-domain-space { background-color: #FEFCBF; color: #744210; border: 1px solid #FAF089; }
+        .badge-domain-measure { background-color: #E6FFFA; color: #234E52; border: 1px solid #B2F5EA; }
+        .badge-domain-data { background-color: #EBF4FF; color: #434190; border: 1px solid #C3DAFE; }
+        .badge-domain-algebra { background-color: #FAF5FF; color: #553C9A; border: 1px solid #E9D8FD; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- 頂部學校導航欄 -->
+    <header class="bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl shadow-md border-2 border-amber-300">
+                    ⛪
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-wide">東涌天主教學校 (小學部)</h1>
+                    <p class="text-xs sm:text-sm font-semibold text-blue-200">小學六年級數學科 • 互動教學遊戲平台</p>
+                </div>
+            </div>
+
+            <!-- 快捷標籤與聯絡資訊 -->
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-bold bg-white/10 px-4 py-2 rounded-2xl backdrop-blur-sm border border-white/20">
+                <span>🎓 學生自主學習網頁</span>
+                <span class="text-amber-300">|</span>
+                <span>✨ SEN 友好設計支持</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區域 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- 歡迎區與統計橫幅 -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-blue-100 school-card-shadow mb-8 relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-blue-900 text-9xl pointer-events-none">📐</div>
+            <div class="max-w-3xl relative z-10">
+                <span class="inline-block bg-blue-100 text-blue-800 font-extrabold text-xs sm:text-sm px-3.5 py-1 rounded-full mb-3">
+                    2026-2027 數學科學習資源
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-black text-blue-950 mb-3">
+                    歡迎來到小六數學互動闖關島！
+                </h2>
+                <p class="text-slate-600 font-medium leading-relaxed text-sm sm:text-base mb-6">
+                    本網頁按小學六年級數學課程結構劃分，涵蓋上學期及下學期各單元課題。同學們可以點擊設有「🎮 開始遊戲」的課題進入練習，進行語音朗讀、視覺圖解及互動答題！
+                </p>
+
+                <!-- 統計與快速快速狀態 -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-blue-50 border border-blue-200 p-3 rounded-2xl text-center">
+                        <span class="text-xs text-blue-600 font-bold block">總課題數量</span>
+                        <span class="text-xl font-black text-blue-900" id="stat-total-topics">18</span>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-center">
+                        <span class="text-xs text-emerald-600 font-bold block">已發佈遊戲</span>
+                        <span class="text-xl font-black text-emerald-800" id="stat-active-games">6</span>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 p-3 rounded-2xl text-center">
+                        <span class="text-xs text-amber-700 font-bold block">涵蓋學期</span>
+                        <span class="text-xl font-black text-amber-900">上、下學期</span>
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 p-3 rounded-2xl text-center">
+                        <span class="text-xs text-purple-600 font-bold block">學習範疇</span>
+                        <span class="text-xl font-black text-purple-900">5 大範疇</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 篩選與搜尋工具欄 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 school-card-shadow mb-8 space-y-4">
+            
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                
+                <!-- 學期切換按鈕 -->
+                <div class="flex flex-wrap items-center gap-2" id="term-filter-group">
+                    <span class="text-xs font-bold text-slate-500 mr-1">學期：</span>
+                    <button onclick="setTermFilter('ALL')" class="term-btn active font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition bg-blue-600 text-white shadow-sm" data-term="ALL">
+                        全學年 (全部)
+                    </button>
+                    <button onclick="setTermFilter('TERM1')" class="term-btn font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition bg-slate-100 text-slate-700 hover:bg-blue-50" data-term="TERM1">
+                        📘 上學期 (Term 1)
+                    </button>
+                    <button onclick="setTermFilter('TERM2')" class="term-btn font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition bg-slate-100 text-slate-700 hover:bg-blue-50" data-term="TERM2">
+                        📙 下學期 (Term 2)
+                    </button>
+                </div>
+
+                <!-- 搜尋與狀態快速過濾 -->
+                <div class="flex items-center gap-3 w-full lg:w-auto">
+                    <div class="relative flex-grow lg:w-64">
+                        <input type="text" id="search-input" oninput="renderCards()" placeholder="搜尋課題名稱或關鍵字..." 
+                               class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2 pl-9 text-xs sm:text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                    </div>
+                    <label class="flex items-center space-x-2 text-xs sm:text-sm font-bold text-slate-700 cursor-pointer bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 hover:bg-emerald-100">
+                        <input type="checkbox" id="only-games-checkbox" onchange="renderCards()" class="rounded text-emerald-600 focus:ring-emerald-500">
+                        <span>只看已有遊戲</span>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- 範疇分類標籤 -->
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
+                <span class="text-xs font-bold text-slate-500 mr-1">範疇：</span>
+                <button onclick="setDomainFilter('ALL')" class="domain-btn active text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-800 text-white" data-domain="ALL">全部範疇</button>
+                <button onclick="setDomainFilter('數')" class="domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-blue-50" data-domain="數">🔢 數範疇</button>
+                <button onclick="setDomainFilter('度量')" class="domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-emerald-50" data-domain="度量">📏 度量範疇</button>
+                <button onclick="setDomainFilter('圖形與空間')" class="domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-amber-50" data-domain="圖形與空間">📐 圖形與空間</button>
+                <button onclick="setDomainFilter('數據處理')" class="domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-indigo-50" data-domain="數據處理">📊 數據處理</button>
+                <button onclick="setDomainFilter('代數')" class="domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-purple-50" data-domain="代數">🔣 代數範疇</button>
+            </div>
+
+        </div>
+
+        <!-- 課題與遊戲展示卡片網格 -->
+        <div id="topics-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 課題卡片由 JavaScript 動態生成 -->
+        </div>
+
+        <!-- 查無結果提示 -->
+        <div id="no-results" class="hidden text-center py-12 bg-white rounded-3xl border border-slate-200">
+            <span class="text-5xl block mb-3">🔍</span>
+            <h3 class="text-lg font-bold text-slate-700">找不到符合條件的課題</h3>
+            <p class="text-xs text-slate-500 mt-1">請嘗試調整搜尋關鍵字或清除篩選條件。</p>
+        </div>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-blue-950 text-white py-6 border-t-4 border-amber-400 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-bold text-sm">東涌天主教學校 (小學部) • Tung Chung Catholic School (Primary Section)</p>
+            <p class="text-xs text-blue-300">小學六年級數學科教學互動平台 | 本網頁支援 HTML5 網頁應用與 SEN 學習調適</p>
+        </div>
+    </footer>
+
+    <!-- 課題數據與卡片渲染邏輯腳本 -->
+    <script>
+        /**
+         * 📚 小六數學科完整課題及遊戲檔案資料庫
+         * 老師如需加入新遊戲，只需在下方對應課題中，填入 filename、gameTitle 及 update gameAvailable 為 true！
+         */
+        const topicsData = [
+            // ==================== 上學期 (Term 1) ====================
+            {
+                id: "T1_CH1_A",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元一：小數除法",
+                chapter: "課題 1",
+                title: "小數除法（一）- 基礎與位值闖關",
+                domain: "數",
+                description: "小數除以整數、除以 10/100/1000 及位值移動觀念練習。",
+                gameAvailable: true,
+                filename: "P6_CH1小數除法一code_artifact_A.html",
+                gameTitle: "小數除法大冒險 (SEN 專用學習版)",
+                badgeText: "已上線 • 闖關模式"
+            },
+            {
+                id: "T1_CH1_B",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元一：小數除法",
+                chapter: "課題 1 (進階)",
+                title: "小數除法（一）- 多重位值圖解版",
+                domain: "數",
+                description: "提供 3 級難度關卡與圖解位值變化表，強化小數點移動概念。",
+                gameAvailable: true,
+                filename: "P6_CH1小數除法一code_artifact_B.html",
+                gameTitle: "小數除法大冒險 (圖解強化版)",
+                badgeText: "已上線 • 圖解模式"
+            },
+            {
+                id: "T1_CH1_C",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元一：小數除法",
+                chapter: "課題 1 (探險)",
+                title: "小數除法探險島",
+                domain: "數",
+                description: "包含 15 道香港課程題目，提供探險隊長角色選擇與小錦囊提示。",
+                gameAvailable: true,
+                filename: "P6_小數除法題_SEN.html",
+                gameTitle: "小數除法探險島 (15 關)",
+                badgeText: "已上線 • 探險島"
+            },
+            {
+                id: "T1_CH2",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元一：小數除法",
+                chapter: "課題 2",
+                title: "小數四捨五入取近似值",
+                domain: "數",
+                description: "學習將小數四捨五入取至十分位或百分位，附有數軸位置視覺輔助。",
+                gameAvailable: true,
+                filename: "P6_math_rounding(四捨五入)_SEN.html",
+                gameTitle: "小數四捨五入大挑戰",
+                badgeText: "已上線 • 數軸視覺化"
+            },
+            {
+                id: "T1_CH3",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元二：分數、百分數和小數",
+                chapter: "課題 3",
+                title: "分數、百分數和小數互化",
+                domain: "數",
+                description: "學習三者之間的轉換技巧，配有百格圖與分數棒圖像輔助。",
+                gameAvailable: true,
+                filename: "P6_Fraction_Percent_Decimal_SEN_Game.html",
+                gameTitle: "互化大冒險 (300分挑戰)",
+                badgeText: "已上線 • 百格圖輔助"
+            },
+            {
+                id: "T1_CH4",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元二：分數、百分數和小數",
+                chapter: "課題 4",
+                title: "小數和分數混合計算",
+                domain: "數",
+                description: "掌握小數與分數混合加減乘除的計算方法與步驟。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T1_CH5",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元三：圖形與空間",
+                chapter: "課題 5",
+                title: "軸對稱圖形",
+                domain: "圖形與空間",
+                description: "辨別軸對稱圖形，數算多邊形與生活圖形的對稱軸數量。",
+                gameAvailable: true,
+                filename: "P6_axis_symmetry軸對稱_SEN.html",
+                gameTitle: "軸對稱圖形大冒險 (20關)",
+                badgeText: "已上線 • 幾何視覺"
+            },
+            {
+                id: "T1_CH6",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元三：圖形與空間",
+                chapter: "課題 6",
+                title: "立體圖形的認識及切面",
+                domain: "圖形與空間",
+                description: "認識柱體、錐體與球體的切面形狀及空間特徵。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T1_CH7",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元四：度量 - 體積",
+                chapter: "課題 7",
+                title: "正方體和長方體的體積",
+                domain: "度量",
+                description: "運用公式 (長×闊×高) 計算正方體和長方體體積。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T1_CH8",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元四：度量 - 體積",
+                chapter: "課題 8",
+                title: "不規則固體體積與排水法",
+                domain: "度量",
+                description: "利用量杯排水法測量不規則固體的體積。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T1_CH9",
+                term: "TERM1",
+                termName: "上學期",
+                unit: "單元五：數據處理",
+                chapter: "課題 9",
+                title: "折線圖的製作與讀圖",
+                domain: "數據處理",
+                description: "閱讀及繪製折線圖，分析數據隨時間變化的趨勢。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+
+            // ==================== 下學期 (Term 2) ====================
+            {
+                id: "T2_CH10",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元六：百分數的應用",
+                chapter: "課題 10",
+                title: "百分數應用題（折扣與盈虧）",
+                domain: "數",
+                description: "計算物品的折扣、售價、成本以及盈利或虧蝕百分率。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH11",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元六：百分數的應用",
+                chapter: "課題 11",
+                title: "百分之增加與減少",
+                domain: "數",
+                description: "求解數值的百分變化，計算增加或減少後的最終數量。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH12",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元七：圓形與度量",
+                chapter: "課題 12",
+                title: "圓周的計算",
+                domain: "度量",
+                description: "理解圓周率 (π ≈ 3.14 或 22/7)，計算圓形及半圓形的周長。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH13",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元七：圓形與度量",
+                chapter: "課題 13",
+                title: "圓形面積",
+                domain: "度量",
+                description: "運用圓形面積公式 (π × r²) 解答不同圖形的面積問題。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH14",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元八：代數",
+                chapter: "課題 14",
+                title: "簡易方程（一）",
+                domain: "代數",
+                description: "解含有一步計算（加、減、乘、除）的代數方程。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH15",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元八：代數",
+                chapter: "課題 15",
+                title: "簡易方程（二）與應用題",
+                domain: "代數",
+                description: "解兩步計算方程，並依據文字題列出方程求解。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH16",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元九：統計與數據分析",
+                chapter: "課題 16",
+                title: "平均數的計算與應用",
+                domain: "數據處理",
+                description: "求一組數據的平均數，並解答有關平均數的實際生活題。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            },
+            {
+                id: "T2_CH17",
+                term: "TERM2",
+                termName: "下學期",
+                unit: "單元九：統計與數據分析",
+                chapter: "課題 17",
+                title: "複合條形圖與折線圖",
+                domain: "數據處理",
+                description: "閱讀及分析複合條形圖，比較不同類別數據的統計結果。",
+                gameAvailable: false,
+                filename: "",
+                gameTitle: "",
+                badgeText: "遊戲開發中"
+            }
+        ];
+
+        // 全局篩選狀態
+        let currentTerm = "ALL";
+        let currentDomain = "ALL";
+
+        function setTermFilter(term) {
+            currentTerm = term;
+            document.querySelectorAll('.term-btn').forEach(btn => {
+                if (btn.dataset.term === term) {
+                    btn.className = "term-btn active font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition bg-blue-600 text-white shadow-sm";
+                } else {
+                    btn.className = "term-btn font-bold text-xs sm:text-sm px-4 py-2 rounded-xl transition bg-slate-100 text-slate-700 hover:bg-blue-50";
+                }
+            });
+            renderCards();
+        }
+
+        function setDomainFilter(domain) {
+            currentDomain = domain;
+            document.querySelectorAll('.domain-btn').forEach(btn => {
+                if (btn.dataset.domain === domain) {
+                    btn.className = "domain-btn active text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-800 text-white";
+                } else {
+                    btn.className = "domain-btn text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-blue-50";
+                }
+            });
+            renderCards();
+        }
+
+        function getDomainBadgeStyle(domain) {
+            switch (domain) {
+                case '數': return 'badge-domain-number';
+                case '圖形與空間': return 'badge-domain-space';
+                case '度量': return 'badge-domain-measure';
+                case '數據處理': return 'badge-domain-data';
+                case '代數': return 'badge-domain-algebra';
+                default: return 'bg-slate-100 text-slate-700';
+            }
+        }
+
+        function renderCards() {
+            const container = document.getElementById('topics-grid');
+            const noResults = document.getElementById('no-results');
+            const searchKeyword = document.getElementById('search-input').value.trim().toLowerCase();
+            const onlyGames = document.getElementById('only-games-checkbox').checked;
+
+            container.innerHTML = '';
+            let visibleCount = 0;
+
+            topicsData.forEach(item => {
+                // 學期過濾
+                if (currentTerm !== 'ALL' && item.term !== currentTerm) return;
+                // 範疇過濾
+                if (currentDomain !== 'ALL' && item.domain !== currentDomain) return;
+                // 只看遊戲過濾
+                if (onlyGames && !item.gameAvailable) return;
+                // 關鍵字搜尋
+                if (searchKeyword) {
+                    const matchText = (item.title + item.unit + item.chapter + item.description + item.gameTitle).toLowerCase();
+                    if (!matchText.includes(searchKeyword)) return;
+                }
+
+                visibleCount++;
+
+                // 建立卡片 HTML
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl p-5 border-2 border-slate-200 school-card-shadow flex flex-col justify-between transition transform hover:-translate-y-1 hover:border-blue-400";
+
+                const isGame = item.gameAvailable;
+                const domainStyle = getDomainBadgeStyle(item.domain);
+
+                card.innerHTML = `
+                    <div>
+                        <!-- 卡片頂部標籤 -->
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-md ${item.term === 'TERM1' ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-900'}">
+                                ${item.termName}
+                            </span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-md ${domainStyle}">
+                                ${item.domain}範疇
+                            </span>
+                        </div>
+
+                        <!-- 單元與課題標題 -->
+                        <div class="text-xs font-bold text-slate-400 mb-1">${item.unit} • ${item.chapter}</div>
+                        <h3 class="text-lg font-black text-slate-900 mb-2 leading-snug">${item.title}</h3>
+                        <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">${item.description}</p>
+                    </div>
+
+                    <!-- 遊戲連結按鈕區 -->
+                    <div class="pt-3 border-t border-slate-100 mt-2">
+                        ${isGame ? `
+                            <div class="mb-2 flex items-center justify-between text-xs">
+                                <span class="font-bold text-emerald-600 flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    ${item.gameTitle}
+                                </span>
+                            </div>
+                            <a href="${item.filename}" target="_blank" 
+                               class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-sm py-2.5 px-4 rounded-xl shadow transition flex items-center justify-center gap-2">
+                                <span>🎮 開始遊戲</span>
+                                <span class="text-xs opacity-80">➔</span>
+                            </a>
+                        ` : `
+                            <div class="w-full bg-slate-100 text-slate-400 font-bold text-xs py-2.5 px-4 rounded-xl text-center cursor-not-allowed flex items-center justify-center gap-1">
+                                <span>⏳ 遊戲開發中 (敬請期待)</span>
+                            </div>
+                        `}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // 頁面加載完成後初始化
+        window.onload = function() {
+            renderCards();
+        };
+    </script>
+</body>
+</html>
