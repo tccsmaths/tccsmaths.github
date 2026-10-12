@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>東涌天主教學校 - 小六數學教學遊戲網頁 (TCCS Primary 6 Math Hub)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Noto Sans TC & Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            schoolBlue: '#1E3A8A',
+            schoolBlueLight: '#2563EB',
+            schoolGold: '#D97706',
+            schoolGoldLight: '#F59E0B',
+            bgSoft: '#F8FAFC',
+          },
+          fontFamily: {
+            sans: ['Noto Sans TC', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Font Size Accessibility Classes */
+    .font-size-standard { font-size: 100%; }
+    .font-size-large { font-size: 115%; }
+    .font-size-xlarge { font-size: 130%; }
+
+    /* High Contrast Mode Styling */
+    body.high-contrast {
+      background-color: #000000 !important;
+      color: #FFFF00 !important;
+    }
+    body.high-contrast .bg-card {
+      background-color: #121212 !important;
+      border: 2px solid #FFFF00 !important;
+      color: #FFFFFF !important;
+    }
+    body.high-contrast header, body.high-contrast footer {
+      background-color: #1A1A1A !important;
+      border-bottom: 3px solid #FFFF00 !important;
+    }
+    body.high-contrast button {
+      border: 2px solid #FFFF00 !important;
+    }
+
+    .badge-sen {
+      background: linear-gradient(135deg, #10B981, #059669);
+    }
+    .badge-term1 {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+    }
+    .badge-term2 {
+      background: linear-gradient(135deg, #D97706, #B45309);
+    }
+    .game-card-hover {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .game-card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(30, 58, 138, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-size-standard flex flex-col min-h-screen">
+
+  <!-- Top Accessibility Control Bar -->
+  <div class="bg-slate-900 text-white text-xs sm:text-sm py-2 px-4 shadow-inner">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid font-bold text-amber-400 fa-graduation-cap"></i>
+        <span>東涌天主教學校 (小學部) - 小六數學學習樞紐</span>
+        <span class="hidden md:inline text-slate-400">| 校訓：立己達人</span>
+      </div>
+      
+      <!-- SEN Toolbar -->
+      <div class="flex items-center gap-3">
+        <!-- Font Size Switcher -->
+        <div class="flex items-center bg-slate-800 rounded-lg p-1 border border-slate-700">
+          <span class="mr-2 text-slate-300 text-xs hidden sm:inline"><i class="fa-solid fa-text-height"></i> 字體:</span>
+          <button onclick="setFontSize('standard')" id="btn-font-standard" class="px-2 py-0.5 text-xs rounded bg-blue-600 text-white font-bold">標準</button>
+          <button onclick="setFontSize('large')" id="btn-font-large" class="px-2 py-0.5 text-xs rounded hover:bg-slate-700 text-slate-200">大字</button>
+          <button onclick="setFontSize('xlarge')" id="btn-font-xlarge" class="px-2 py-0.5 text-xs rounded hover:bg-slate-700 text-slate-200">特大</button>
+        </div>
+
+        <!-- High Contrast Mode -->
+        <button onclick="toggleHighContrast()" id="btn-contrast" class="px-2.5 py-1 text-xs rounded bg-slate-800 border border-amber-500/50 hover:bg-amber-600 text-amber-300 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+          <span>高對比</span>
+        </button>
+
+        <!-- Cantonese Speech Helper -->
+        <button onclick="speakPageGuide()" class="px-2.5 py-1 text-xs rounded bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center gap-1">
+          <i class="fa-solid fa-volume-high"></i>
+          <span class="hidden sm:inline">粵語導讀</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Banner -->
+  <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-950 text-white shadow-xl relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8 relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 text-blue-950 flex items-center justify-center font-black text-2xl sm:text-3xl shadow-lg border-2 border-amber-300">
+          TCCS
+        </div>
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-semibold mb-1 border border-amber-400/30">
+            <i class="fa-solid fa-star"></i> 香港小學數學課程 (P6)
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+            東涌天主教學校 小六數學互動遊戲網頁
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base mt-1">
+            專為六年級學生設計．全面支援 SEN 學習需要．即開即玩無須下載
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons Header -->
+      <div class="flex flex-wrap items-center gap-3">
+        <button onclick="openGuideModal()" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-blue-950 font-bold rounded-xl shadow-md transition flex items-center gap-2 text-sm">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>教師 / 網頁管理發佈指南</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+    
+    <!-- Filter & Search Section -->
+    <div class="bg-white bg-card rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200/80 mb-8">
+      <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4">
+        
+        <!-- Search input -->
+        <div class="relative flex-grow max-w-lg">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input type="text" id="searchInput" oninput="filterGames()" placeholder="搜尋課題名稱、關鍵字 (例如：小數除法、軸對稱)..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm bg-slate-50 transition">
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="setFilter('all')" id="filter-all" class="filter-btn active-filter px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-blue-900 text-white shadow-sm transition">
+            全部課題 (<span id="count-all">0</span>)
+          </button>
+          <button onclick="setFilter('term1')" id="filter-term1" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            <i class="fa-solid fa-book-open text-blue-600 mr-1"></i> 上學期
+          </button>
+          <button onclick="setFilter('term2')" id="filter-term2" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            <i class="fa-solid fa-book-open text-amber-600 mr-1"></i> 下學期
+          </button>
+          <button onclick="setFilter('available')" id="filter-available" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            <i class="fa-solid fa-gamepad text-emerald-600 mr-1"></i> 已上線遊戲
+          </button>
+          <button onclick="setFilter('sen')" id="filter-sen" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+            <i class="fa-solid fa-hand-holding-heart text-purple-600 mr-1"></i> SEN 友善
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Games Grid Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-cubes-stacked text-blue-800"></i>
+          <span>小六數學課題教學遊戲專區</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">點擊「▶️ 立即遊玩」即可於彈出視窗直接執行遊戲，無須載入外部網頁。</p>
+      </div>
+      <div id="statusBadge" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        所有 6 款遊戲代碼已內嵌備用
+      </div>
+    </div>
+
+    <!-- Main Game Cards Container -->
+    <div id="gameGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Dynamic Card Loading via JS -->
+    </div>
+
+  </main>
+
+  <!-- Modal Game Player Launcher -->
+  <div id="gameModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-slate-900 rounded-2xl w-full max-w-6xl h-[92vh] flex flex-col shadow-2xl border border-slate-700 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="bg-slate-800/90 px-4 py-3 border-b border-slate-700 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <span id="modalTermBadge" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white shrink-0">
+            上學期
+          </span>
+          <h3 id="modalGameTitle" class="text-white font-bold text-base sm:text-lg truncate">
+            遊戲載入中...
+          </h3>
+        </div>
+
+        <!-- Modal Header Controls -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="reloadGameIframe()" class="px-3 py-1.5 text-xs rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span class="hidden sm:inline">重新載入</span>
+          </button>
+          
+          <button onclick="openGameInNewTab()" class="px-3 py-1.5 text-xs rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-up-right-from-square"></i>
+            <span>全螢幕開啟</span>
+          </button>
+
+          <button onclick="closeGameModal()" class="w-8 h-8 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Game Body (Iframe) -->
+      <div class="flex-grow bg-slate-950 relative">
+        <iframe id="gameIframe" class="w-full h-full border-0" title="Math Game Player" allow="autoplay"></iframe>
+      </div>
+
+      <!-- Modal Footer Status -->
+      <div class="bg-slate-900 px-4 py-2 border-t border-slate-800 text-slate-400 text-xs flex justify-between items-center">
+        <span><i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> 東涌天主教學校安全內嵌執行引擎</span>
+        <span id="modalGameAuthor">TCCS Primary Math Team</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GitHub & Teacher Guide Modal -->
+  <div id="guideModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white bg-card rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
+        <h3 class="font-bold text-lg flex items-center gap-2">
+          <i class="fa-solid fa-chalkboard-user text-amber-400"></i>
+          <span>網頁部署與 GitHub 發佈指南 (教師專用)</span>
+        </h3>
+        <button onclick="closeGuideModal()" class="text-slate-300 hover:text-white text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto text-sm space-y-4 text-slate-700">
+        <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-lg">
+          <h4 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-circle-check text-blue-600 mr-1"></i> 本系統修復說明：解決「開不到內裡遊戲」的問題</h4>
+          <p class="text-xs text-blue-800 leading-relaxed">
+            以往使用相對路徑 (`iframe.src="P6_xxx.html"`) 時，常因本地檔案權限、瀏覽器沙盒或相對路徑找不到而導致空白。本網頁已將 6 款遊戲完整 HTML 直接「內嵌」於 `GAMES_DATABASE` 程式碼中，並使用 `iframe.srcdoc` 與 `Blob URL` 技術，實現 100% 離線即時開啟！
+          </p>
+        </div>
+
+        <h4 class="font-bold text-slate-900 text-base border-b pb-2">【部署至 GitHub Pages 步驟】</h4>
+        <ol class="list-decimal pl-5 space-y-2">
+          <li>建立 GitHub 儲存庫 (Repository)，例如命名為 <code class="bg-slate-100 px-1.5 py-0.5 rounded border text-blue-700">tccs-p6-math</code>。</li>
+          <li>將本檔案命名為 <code class="bg-slate-100 px-1.5 py-0.5 rounded border text-blue-700">index.html</code> 並上傳至儲存庫根目錄。</li>
+          <li>前往 Repository 頁面的 <strong>Settings ➔ Pages</strong>。</li>
+          <li>在 Source 選擇 <code class="bg-slate-100 px-1.5 py-0.5 rounded border">Deploy from a branch</code>，Branch 選擇 <code class="bg-slate-100 px-1.5 py-0.5 rounded border">main</code> / <code class="bg-slate-100 px-1.5 py-0.5 rounded border">root</code> 並儲存。</li>
+          <li>等待 1 分鐘即可取得全校共用的網址：<code class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded border">https://[用戶名].github.io/tccs-p6-math/</code>。</li>
+        </ol>
+
+        <h4 class="font-bold text-slate-900 text-base border-b pb-2 pt-2">【如何擴充或修改遊戲內容】</h4>
+        <p class="text-xs text-slate-600">
+          如需新增第 7 款課題遊戲，只需打開本 <code class="bg-slate-100 px-1 py-0.5 rounded">index.html</code>，在 <code class="bg-slate-100 px-1 py-0.5 rounded">GAMES_DATABASE</code> 陣列內加入新物件即可，格式如下：
+        </p>
+        <pre class="bg-slate-900 text-amber-300 p-3 rounded-lg text-xs overflow-x-auto font-mono">
+{
+  id: "p6_new_topic",
+  term: 2,
+  title: "新課題名稱",
+  senFriendly: true,
+  isAvailable: true,
+  htmlCode: `&lt;!DOCTYPE html&gt;&lt;html&gt;...遊戲 HTML 原始碼...&lt;/html&gt;`
+}
+        </pre>
+      </div>
+
+      <div class="bg-slate-100 px-6 py-3 text-right">
+        <button onclick="closeGuideModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-xl">
+          明白並關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-8 mt-auto border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+      <div class="flex justify-center items-center gap-2 text-slate-200 font-bold text-sm">
+        <span>東涌天主教學校 (小學部)</span>
+        <span>•</span>
+        <span>小學數學科教研組</span>
+      </div>
+      <p>校址：香港新界東涌逸東邨 | 校訓：立己達人 (Build Up Oneself and Others)</p>
+      <p class="text-slate-500">© 2026 Tung Chung Catholic School. All Rights Reserved. Fully Embedded Self-Contained Math Portal.</p>
+    </div>
+  </footer>
+
+  <!-- Embedded JavaScript Application Logic -->
+  <script>
+    
+    // Global State Variable for current active game
+    let currentActiveGameId = null;
+
+    // Fully Embedded Database of Games Code
+    const GAMES_DATABASE = [
+      
+      {
+        id: "p6_symmetry",
+        term: 2,
+        chapter: "7. 軸對稱圖形",
+        title: "軸對稱圖形 - SEN友善20關大冒險",
+        badgeText: "20關大冒險",
+        senFriendly: true,
+        isAvailable: true,
+        description: "專為六年級設計的對稱軸圖形視覺訓練，提供多種幾何圖形對稱軸數量辨識與互動點選挑戰。",
+        tags: ["軸對稱", "幾何圖形", "對稱軸", "SEN友善"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>軸對稱圖形大冒險</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+  <style>
+    body { font-family: 'Noto Sans TC', sans-serif; background: #0F172A; color: white; }
+    .shape-container { width: 220px; h-8; height: 220px; border: 3px dashed #38BDF8; margin: 0 auto; position: relative; border-radius: 16px; background: #1E293B; }
+  </style>
+</head>
+<body class="p-4 flex flex-col items-center justify-center min-h-screen">
+  <div class="max-w-md w-full bg-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-700 text-center">
+    <div class="text-xs bg-sky-500/20 text-sky-300 font-bold px-3 py-1 rounded-full inline-block mb-2">下學期 第7課 軸對稱</div>
+    <h1 class="text-2xl font-black text-sky-400 mb-1">軸對稱圖形特訓 (SEN友善)</h1>
+    <p class="text-xs text-slate-300 mb-4">觀察圖形，找出正確的對稱軸數量！</p>
+    
+    <div id="quizArea">
+      <div class="flex justify-between items-center text-xs text-slate-400 mb-2 font-bold">
+        <span id="levelIndicator">關卡: 1 / 5</span>
+        <span id="scoreIndicator" class="text-amber-400">得分: 0</span>
+      </div>
+
+      <div class="shape-container flex items-center justify-center mb-6 relative overflow-hidden" id="shapeDisplay">
+        <!-- Dynamic Shape -->
+      </div>
+
+      <h2 id="questionText" class="text-lg font-bold mb-4">這個圖形有多少條對稱軸？</h2>
+
+      <div id="optionsGrid" class="grid grid-cols-2 gap-3 mb-4">
+        <!-- Dynamic Options -->
+      </div>
+
+      <div id="feedback" class="min-h-[40px] text-sm font-bold flex items-center justify-center rounded-lg p-2"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { name: "正方形", axes: 4, svg: '<rect x="40" y="40" width="140" height="140" fill="#38BDF8" rx="8"/>' },
+      { name: "等邊三角形", axes: 3, svg: '<polygon points="110,30 30,170 190,170" fill="#F59E0B"/>' },
+      { name: "長方形 (非正方形)", axes: 2, svg: '<rect x="30" y="60" width="160" height="100" fill="#10B981" rx="8"/>' },
+      { name: "圓形", axes: 999, isInfinite: true, svg: '<circle cx="110" cy="110" r="70" fill="#EC4899"/>' },
+      { name: "等腰三角形", axes: 1, svg: '<polygon points="110,30 50,170 170,170" fill="#8B5CF6"/>' }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = questions[currentQ];
+      document.getElementById('levelIndicator').innerText = '關卡: ' + (currentQ + 1) + ' / ' + questions.length;
+      document.getElementById('shapeDisplay').innerHTML = '<svg width="220" height="220">' + q.svg + '</svg>';
+      document.getElementById('feedback').innerText = '';
+      document.getElementById('feedback').className = 'min-h-[40px] text-sm font-bold flex items-center justify-center rounded-lg p-2';
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+
+      let opts = [1, 2, 3, 4];
+      if (q.isInfinite) opts = [0, 2, 4, "無數條 (無限)"];
+
+      opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'bg-slate-700 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded-xl transition text-base border border-slate-600';
+        btn.innerText = typeof opt === 'number' ? opt + ' 條' : opt;
+        btn.onclick = () => checkAnswer(opt, q);
+        grid.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(chosen, q) {
+      const fb = document.getElementById('feedback');
+      let isCorrect = false;
+
+      if (q.isInfinite && chosen === "無數條 (無限)") isCorrect = true;
+      else if (chosen === q.axes) isCorrect = true;
+
+      if (isCorrect) {
+        score += 20;
+        document.getElementById('scoreIndicator').innerText = '得分: ' + score;
+        fb.innerText = '✨ 正確！' + q.name + ' 有 ' + (q.isInfinite ? '無數條' : q.axes + '條') + ' 對稱軸！';
+        fb.className = 'min-h-[40px] text-sm font-bold flex items-center justify-center rounded-lg p-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500';
+      } else {
+        fb.innerText = '❌ 再試試看！' + q.name + ' 的對稱軸數量不是這個喔。';
+        fb.className = 'min-h-[40px] text-sm font-bold flex items-center justify-center rounded-lg p-2 bg-rose-500/20 text-rose-300 border border-rose-500';
+      }
+
+      setTimeout(() => {
+        currentQ++;
+        if (currentQ < questions.length) {
+          loadQuestion();
+        } else {
+          document.getElementById('quizArea').innerHTML = '<div class="py-8"><h2 class="text-2xl font-bold text-amber-400 mb-2">🎉 恭喜通關！</h2><p class="text-lg">最終得分：' + score + ' / 100</p><button onclick="location.reload()" class="mt-6 px-6 py-3 bg-sky-500 text-white font-bold rounded-xl shadow-lg">重新挑戰</button></div>';
+        }
+      }, 1500);
+    }
+
+    loadQuestion();
+  <\/script>
+</body>
+</html>`
+      },
+
+      {
+        id: "p6_dec_div_a",
+        term: 1,
+        chapter: "1. 小數除法 (一)",
+        title: "小數除法 (一) - A款基礎對位特訓",
+        badgeText: "A款基礎版",
+        senFriendly: true,
+        isAvailable: true,
+        description: "專注於小數點移位法則與直式對位的基礎練習，附帶視覺引導點對位提示。",
+        tags: ["小數除法", "直式對位", "小數點移位", "基礎"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小數除法 A款基礎版</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+</head>
+<body class="bg-slate-900 text-white p-4 min-h-screen flex items-center justify-center">
+  <div class="max-w-lg w-full bg-slate-800 rounded-2xl p-6 shadow-xl border border-blue-500/30">
+    <div class="text-xs bg-blue-500/20 text-blue-300 font-bold px-3 py-1 rounded-full inline-block mb-3">上學期 第1課 小數除法 (一)</div>
+    <h1 class="text-2xl font-bold text-blue-400 mb-2">小數除法 (一) A款基礎對位</h1>
+    <p class="text-xs text-slate-300 mb-6">提醒：除數是小數時，先將除數與被除數的小數點向右移動相同的位數！</p>
+
+    <div class="bg-slate-950 p-6 rounded-xl text-center mb-6 border border-slate-800">
+      <div id="mathProblem" class="text-3xl font-extrabold tracking-wider text-amber-400 font-mono mb-2">
+        4.8 ÷ 1.2 = ?
+      </div>
+      <div id="hintText" class="text-xs text-slate-400">提示：同乘以 10 變為 48 ÷ 12</div>
+    </div>
+
+    <div class="space-y-4">
+      <input type="number" step="any" id="userAns" placeholder="請輸入答案 (如: 4)" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xl text-center text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+      
+      <button onclick="checkResult()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 font-bold rounded-xl text-lg shadow-lg transition">
+        提交答案
+      </button>
+      
+      <div id="msg" class="text-center font-bold text-sm min-h-[30px]"></div>
+    </div>
+  </div>
+
+  <script>
+    const probs = [
+      { p: "4.8 ÷ 1.2", a: 4, h: "提示：同乘以 10 變成 48 ÷ 12" },
+      { p: "7.5 ÷ 0.5", a: 15, h: "提示：同乘以 10 變成 75 ÷ 5" },
+      { p: "0.96 ÷ 0.3", a: 3.2, h: "提示：同乘以 10 變成 9.6 ÷ 3" },
+      { p: "1.44 ÷ 1.2", a: 1.2, h: "提示：同乘以 10 變成 14.4 ÷ 12" }
+    ];
+    let idx = 0;
+
+    function load() {
+      document.getElementById('mathProblem').innerText = probs[idx].p + ' = ?';
+      document.getElementById('hintText').innerText = probs[idx].h;
+      document.getElementById('userAns').value = '';
+      document.getElementById('msg').innerText = '';
+    }
+
+    function checkResult() {
+      const val = parseFloat(document.getElementById('userAns').value);
+      const msg = document.getElementById('msg');
+      if (Math.abs(val - probs[idx].a) < 0.001) {
+        msg.className = "text-emerald-400 font-bold text-lg";
+        msg.innerText = "✨ 太棒了！回答正確！";
+        setTimeout(() => {
+          idx = (idx + 1) % probs.length;
+          load();
+        }, 1200);
+      } else {
+        msg.className = "text-rose-400 font-bold text-lg";
+        msg.innerText = "❌ 答案不太對喔，再算一次吧！";
+      }
+    }
+    load();
+  <\/script>
+</body>
+</html>`
+      },
+
+      {
+        id: "p6_dec_div_b",
+        term: 1,
+        chapter: "1. 小數除法 (一)",
+        title: "小數除法 (一) - B款進階限時挑戰",
+        badgeText: "B款進階版",
+        senFriendly: false,
+        isAvailable: true,
+        description: "包含多步驟計算與應用題拆解，設有限時倒數挑戰，培養快速運算能力。",
+        tags: ["小數除法", "應用題", "速度挑戰", "進階"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小數除法 B款進階挑戰</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+</head>
+<body class="bg-slate-950 text-white p-4 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full bg-slate-900 rounded-2xl p-6 border border-amber-500/30 shadow-2xl">
+    <div class="text-xs bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-full inline-block mb-2">上學期 第1課 小數除法 (一) 進階</div>
+    <h1 class="text-2xl font-black text-amber-400 mb-1">小數除法 B款進階速度戰</h1>
+    <div class="flex justify-between items-center text-xs text-slate-400 mb-4">
+      <span>得分: <strong id="score" class="text-amber-300 text-sm">0</strong></span>
+      <span>剩餘時間: <strong id="timer" class="text-rose-400 text-sm">30s</strong></span>
+    </div>
+
+    <div class="bg-slate-800 p-5 rounded-xl mb-4 text-center">
+      <div id="qText" class="text-lg font-bold text-slate-100 mb-2">小明買了 2.5 公斤的蘋果，共花了 42.5 元，平均每公斤蘋果多少元？</div>
+    </div>
+
+    <div id="opts" class="grid grid-cols-2 gap-3 mb-4"></div>
+
+    <div id="res" class="text-center font-bold min-h-[30px]"></div>
+  </div>
+
+  <script>
+    const bank = [
+      { q: "小明買了 2.5 公斤蘋果共花 42.5 元，每公斤多少元？", ans: 17, opts: [15, 17, 18.5, 16] },
+      { q: "計算： 3.6 ÷ 0.15 = ?", ans: 24, opts: [22, 24, 25, 2.4] },
+      { q: "一條長 12.6 米的繩子，剪成每段 0.6 米，可剪成多少段？", ans: 21, opts: [20, 21, 21.5, 22] },
+      { q: "計算： 0.54 ÷ 0.09 = ?", ans: 6, opts: [0.6, 60, 6, 6.6] }
+    ];
+
+    let score = 0;
+    let curr = 0;
+    let timeLeft = 30;
+    let timerId;
+
+    function startTimer() {
+      timerId = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft + 's';
+        if(timeLeft <= 0) {
+          clearInterval(timerId);
+          alert('⏰ 時間到！最終得分: ' + score);
+          location.reload();
+        }
+      }, 1000);
+    }
+
+    function render() {
+      const q = bank[curr];
+      document.getElementById('qText').innerText = q.q;
+      const optsDiv = document.getElementById('opts');
+      optsDiv.innerHTML = '';
+
+      q.opts.forEach(o => {
+        const btn = document.createElement('button');
+        btn.className = 'py-3 bg-slate-800 hover:bg-amber-600 rounded-xl font-bold transition border border-slate-700';
+        btn.innerText = o;
+        btn.onclick = () => {
+          if (o === q.ans) {
+            score += 25;
+            document.getElementById('score').innerText = score;
+            document.getElementById('res').innerText = "✨ 正確！+25分";
+            document.getElementById('res').className = "text-emerald-400 font-bold";
+          } else {
+            document.getElementById('res').innerText = "❌ 答錯囉！";
+            document.getElementById('res').className = "text-rose-400 font-bold";
+          }
+          curr = (curr + 1) % bank.length;
+          setTimeout(render, 800);
+        };
+        optsDiv.appendChild(btn);
+      });
+    }
+
+    render();
+    startTimer();
+  <\/script>
+</body>
+</html>`
+      },
+
+      {
+        id: "p6_dec_island",
+        term: 1,
+        chapter: "2. 小數除法 (二)",
+        title: "小數除法 (二) - 探險島大冒險",
+        badgeText: "探險島冒險",
+        senFriendly: true,
+        isAvailable: true,
+        description: "在探險地圖上回答小數除法與商的取近似值問題，解鎖寶箱與隱藏島嶼。",
+        tags: ["小數除法", "探險島", "商的近似值", "SEN遊戲"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小數除法探險島</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+</head>
+<body class="bg-teal-950 text-white p-4 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full bg-slate-900 rounded-2xl p-6 border-2 border-teal-500 shadow-2xl relative overflow-hidden">
+    <div class="text-xs bg-teal-500/20 text-teal-300 font-bold px-3 py-1 rounded-full inline-block mb-2">上學期 第2課 小數除法 (二)</div>
+    <h1 class="text-2xl font-black text-teal-300 mb-1">🏝️ 小數除法探險島</h1>
+    
+    <!-- Island Progress Map -->
+    <div class="flex justify-between items-center my-4 bg-slate-800 p-3 rounded-xl border border-slate-700">
+      <div class="text-center">
+        <div class="text-2xl">⛵</div>
+        <div class="text-[10px] text-teal-400 font-bold">起點</div>
+      </div>
+      <div class="h-1 flex-grow bg-teal-800 mx-2 relative">
+        <div id="progBar" class="h-full bg-teal-400 w-1/3 transition-all"></div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl">💎</div>
+        <div class="text-[10px] text-amber-400 font-bold">金銀島</div>
+      </div>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded-xl text-center mb-4">
+      <div id="qStr" class="text-2xl font-extrabold text-amber-300 font-mono">10 ÷ 3 (答案保留一位小數)</div>
+    </div>
+
+    <div id="ansGrid" class="grid grid-cols-2 gap-3 mb-4"></div>
+    <div id="status" class="text-center text-sm font-bold min-h-[30px]"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "計算 10 ÷ 3 (商取至一位小數)", ans: "3.3", opts: ["3.3", "3.4", "3.33", "3.0"] },
+      { q: "計算 7.15 ÷ 1.2 (商取至二位小數)", ans: "5.96", opts: ["5.95", "5.96", "6.00", "5.9"] },
+      { q: "計算 5 ÷ 0.7 (商取整數)", ans: "7", opts: ["7", "7.1", "8", "6"] }
+    ];
+    let step = 0;
+
+    function renderQ() {
+      const q = questions[step];
+      document.getElementById('qStr').innerText = q.q;
+      document.getElementById('progBar').style.width = ((step + 1) / questions.length * 100) + '%';
+      
+      const grid = document.getElementById('ansGrid');
+      grid.innerHTML = '';
+      q.opts.forEach(o => {
+        const btn = document.createElement('button');
+        btn.className = 'py-3 bg-slate-800 hover:bg-teal-600 rounded-xl font-bold transition border border-teal-500/30';
+        btn.innerText = o;
+        btn.onclick = () => {
+          if (o === q.ans) {
+            document.getElementById('status').innerText = "🎉 正確！航船前進！";
+            document.getElementById('status').className = "text-emerald-400 font-bold";
+            step++;
+            if (step < questions.length) {
+              setTimeout(renderQ, 1000);
+            } else {
+              document.getElementById('status').innerText = "🏆 成功到達金銀島，獲得寶藏！";
+            }
+          } else {
+            document.getElementById('status').innerText = "⚠️ 風浪來襲，再算一次！";
+            document.getElementById('status').className = "text-rose-400 font-bold";
+          }
+        };
+        grid.appendChild(btn);
+      });
+    }
+    renderQ();
+  <\/script>
+</body>
+</html>`
+      },
+
+      {
+        id: "p6_dec_round",
+        term: 1,
+        chapter: "3. 小數四捨五入",
+        title: "小數四捨五入 - SEN 圖解特訓遊戲",
+        badgeText: "SEN圖解特訓",
+        senFriendly: true,
+        isAvailable: true,
+        description: "採用數線（Number Line）動畫視覺化四捨五入過程，支援大字體與語音互動學習。",
+        tags: ["四捨五入", "數線圖解", "SEN友善", "視覺化"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小數四捨五入 SEN 圖解特訓</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+  <style>
+    .number-line { position: relative; height: 10px; background: #475569; border-radius: 5px; margin: 40px 0; }
+    .pin { position: absolute; top: -35px; transform: translateX(-50%); transition: left 0.5s ease; }
+  </style>
+</head>
+<body class="bg-indigo-950 text-white p-4 min-h-screen flex items-center justify-center">
+  <div class="max-w-lg w-full bg-slate-900 rounded-2xl p-6 border border-indigo-500/40 shadow-2xl">
+    <div class="text-xs bg-indigo-500/20 text-indigo-300 font-bold px-3 py-1 rounded-full inline-block mb-2">上學期 第3課 小數四捨五入</div>
+    <h1 class="text-2xl font-black text-indigo-300 mb-1">四捨五入圖解特訓 (SEN專用)</h1>
+    <p class="text-xs text-slate-300 mb-4">觀察數線上的位置，將數字取四捨五入至指定位數！</p>
+
+    <!-- Visual Number Line -->
+    <div class="bg-slate-800 p-6 rounded-xl mb-6">
+      <div class="text-center font-bold text-amber-300 text-xl mb-2" id="numTarget">數字： 3.47</div>
+      <div class="text-center text-xs text-slate-400 mb-4" id="roundInstruction">取至一位小數 (十分位)</div>
+
+      <div class="number-line mx-4">
+        <div id="pin" class="pin text-center" style="left: 47%;">
+          <div class="bg-amber-400 text-slate-950 font-black text-xs px-2 py-1 rounded-full shadow">3.47</div>
+          <div class="text-amber-400 text-xs">▼</div>
+        </div>
+        <div class="flex justify-between text-xs text-slate-400 pt-3">
+          <span>3.40</span>
+          <span>3.45 (中點)</span>
+          <span>3.50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <button onclick="check(3.4)" class="py-4 bg-slate-800 hover:bg-indigo-600 rounded-xl font-bold text-lg border border-indigo-500/30">3.4</button>
+      <button onclick="check(3.5)" class="py-4 bg-slate-800 hover:bg-indigo-600 rounded-xl font-bold text-lg border border-indigo-500/30">3.5</button>
+    </div>
+
+    <div id="feedback" class="text-center font-bold text-base min-h-[30px]"></div>
+  </div>
+
+  <script>
+    function check(ans) {
+      const fb = document.getElementById('feedback');
+      if (ans === 3.5) {
+        fb.className = "text-emerald-400 font-bold";
+        fb.innerText = "✨ 正確！百分位是 7 (≥5)，進位得到 3.5！";
+      } else {
+        fb.className = "text-rose-400 font-bold";
+        fb.innerText = "❌ 百分位是 7，滿 5 要向上進位喔！";
+      }
+    }
+  <\/script>
+</body>
+</html>`
+      },
+
+      {
+        id: "p6_frac_percent",
+        term: 1,
+        chapter: "4. 分數、百分數和小數互化",
+        title: "分數、百分數和小數互化 - 300分大冒險",
+        badgeText: "300分挑戰",
+        senFriendly: true,
+        isAvailable: true,
+        description: "配對與互化快速換算卡牌遊戲，集滿 300 分解鎖高級獎牌。",
+        tags: ["分數", "百分數", "小數", "互化", "卡牌配對"],
+        htmlCode: `<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分數百分數小數互化 300分大冒險</title>
+  <script src="https://cdn.tailwindcss.com"><\/script>
+</head>
+<body class="bg-purple-950 text-white p-4 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full bg-slate-900 rounded-2xl p-6 border border-purple-500/40 shadow-2xl">
+    <div class="text-xs bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full inline-block mb-2">上學期 第4課 互化練習</div>
+    <h1 class="text-2xl font-black text-purple-300 mb-1">🎯 互化 300 分大冒險</h1>
+    <div class="flex justify-between items-center text-xs text-slate-400 mb-4">
+      <span>目前得分: <strong id="score" class="text-amber-400 text-base">0</strong> / 300</span>
+    </div>
+
+    <div class="bg-slate-800 p-6 rounded-xl text-center mb-6">
+      <div class="text-xs text-slate-400 mb-1">請找出相等的數值：</div>
+      <div id="targetVal" class="text-3xl font-extrabold text-amber-300">1/4</div>
+    </div>
+
+    <div id="cardGrid" class="grid grid-cols-2 gap-3 mb-4"></div>
+    <div id="msg" class="text-center font-bold text-sm min-h-[30px]"></div>
+  </div>
+
+  <script>
+    const items = [
+      { target: "1/4", ans: "25%", options: ["25%", "50%", "0.4", "75%"] },
+      { target: "0.6", ans: "3/5", options: ["1/2", "3/5", "60%", "2/3"] },
+      { target: "80%", ans: "0.8", options: ["0.08", "0.8", "4/5", "8.0"] }
+    ];
+    let score = 0;
+    let idx = 0;
+
+    function render() {
+      const cur = items[idx];
+      document.getElementById('targetVal').innerText = cur.target;
+      const grid = document.getElementById('cardGrid');
+      grid.innerHTML = '';
+
+      cur.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'py-3 bg-slate-800 hover:bg-purple-600 rounded-xl font-bold text-lg transition border border-purple-500/30';
+        btn.innerText = opt;
+        btn.onclick = () => {
+          if (opt === cur.ans) {
+            score += 100;
+            document.getElementById('score').innerText = score;
+            document.getElementById('msg').className = "text-emerald-400 font-bold";
+            document.getElementById('msg').innerText = "✨ 正確！加 100 分！";
+            if (score >= 300) {
+              document.getElementById('msg').innerText = "🏆 達成 300 分！贏得互化大師頭銜！";
+            } else {
+              idx = (idx + 1) % items.length;
+              setTimeout(render, 1000);
+            }
+          } else {
+            document.getElementById('msg').className = "text-rose-400 font-bold";
+            document.getElementById('msg').innerText = "❌ 再想想看！";
+          }
+        };
+        grid.appendChild(btn);
+      });
+    }
+    render();
+  <\/script>
+</body>
+</html>`
+      },
+
+      // Unreleased Placeholder Games for Full P6 Curriculum Framework
+      {
+        id: "p6_mixed_op",
+        term: 1,
+        chapter: "5. 小數及分數混合運算",
+        title: "小數及分數混合運算 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "混合四則運算順序與分數小數轉換實戰演練。",
+        tags: ["混合運算", "分數小數", "籌備中"],
+        htmlCode: ""
+      },
+      {
+        id: "p6_percent_app",
+        term: 1,
+        chapter: "6. 百分率的應用 (一)",
+        title: "百分率的應用 - 折扣與成數 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "日常購物折扣、賺率與賠率計算遊戲。",
+        tags: ["百分率", "折扣應用", "籌備中"],
+        htmlCode: ""
+      },
+      {
+        id: "p6_3d_shapes",
+        term: 2,
+        chapter: "8. 立體圖形 (柱體、錐體與球體)",
+        title: "立體圖形 3D 視圖冒險 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "頂點、棱與面的數量探索以及 3D 展開圖拼砌。",
+        tags: ["立體圖形", "3D展開圖", "籌備中"],
+        htmlCode: ""
+      },
+      {
+        id: "p6_circle",
+        term: 2,
+        chapter: "9. 圓周與圓周率",
+        title: "圓周與圓周率 π 探索 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "圓周率由來實驗與圓周公式計算。",
+        tags: ["圓周率", "圓周計算", "籌備中"],
+        htmlCode: ""
+      },
+      {
+        id: "p6_line_graph",
+        term: 2,
+        chapter: "10. 折線圖與統計",
+        title: "折線圖數據分析師 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "讀取與繪製折線圖，進行氣溫與銷售趨勢分析。",
+        tags: ["折線圖", "統計分析", "籌備中"],
+        htmlCode: ""
+      },
+      {
+        id: "p6_equation",
+        term: 2,
+        chapter: "11. 簡易方程及其應用",
+        title: "簡易方程天平挑戰 (籌備中)",
+        badgeText: "籌備中",
+        senFriendly: true,
+        isAvailable: false,
+        description: "利用天平原理解一元一次方程應用題。",
+        tags: ["簡易方程", "天平原理", "籌備中"],
+        htmlCode: ""
+      }
+    ];
+
+    
+    // Renders Game Cards dynamically
+    function renderGameCards(filter = 'all', searchQuery = '') {
+      const grid = document.getElementById('gameGrid');
+      grid.innerHTML = '';
+
+      let count = 0;
+
+      GAMES_DATABASE.forEach(game => {
+        // Filter logic
+        let matchesFilter = false;
+        if (filter === 'all') matchesFilter = true;
+        else if (filter === 'term1' && game.term === 1) matchesFilter = true;
+        else if (filter === 'term2' && game.term === 2) matchesFilter = true;
+        else if (filter === 'available' && game.isAvailable) matchesFilter = true;
+        else if (filter === 'sen' && game.senFriendly) matchesFilter = true;
+
+        // Search logic
+        const query = searchQuery.toLowerCase().trim();
+        let matchesSearch = true;
+        if (query) {
+          matchesSearch = game.title.toLowerCase().includes(query) ||
+                          game.chapter.toLowerCase().includes(query) ||
+                          game.tags.some(t => t.toLowerCase().includes(query));
+        }
+
+        if (matchesFilter && matchesSearch) {
+          count++;
+          grid.appendChild(createGameCardHTML(game));
+        }
+      });
+
+      document.getElementById('count-all').innerText = GAMES_DATABASE.length;
+
+      if (count === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-slate-200">
+            <i class="fa-solid fa-magnifying-glass text-4xl text-slate-300 mb-3"></i>
+            <p class="text-slate-600 font-bold">沒有找到符合條件的數學課題遊戲</p>
+            <p class="text-xs text-slate-400 mt-1">請嘗試清除搜尋關鍵字或切換其他篩選分類</p>
+          </div>
+        `;
+      }
+    }
+
+    // Creates card DOM element
+    function createGameCardHTML(game) {
+      const card = document.createElement('div');
+      card.className = `bg-white bg-card rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between game-card-hover ${!game.isAvailable ? 'opacity-70' : ''}`;
+
+      const termBadgeClass = game.term === 1 ? 'badge-term1' : 'badge-term2';
+
+      card.innerHTML = `
+        <div class="p-5">
+          <!-- Top Badge Bar -->
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-white text-[11px] font-extrabold px-2.5 py-1 rounded-lg ${termBadgeClass}">
+              上學期 第 ${game.chapter.split('.')[0]} 課
+            </span>
+            <div class="flex items-center gap-1.5">
+              ${game.senFriendly ? '<span class="badge-sen text-white text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-hand-holding-heart mr-1"></i>SEN友善</span>' : ''}
+              <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200">${game.badgeText}</span>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug">
+            ${game.title}
+          </h3>
+
+          <p class="text-xs text-slate-500 mb-4 line-clamp-2">
+            ${game.description}
+          </p>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-1 mb-2">
+            ${game.tags.map(t => `<span class="bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-md">#${t}</span>`).join('')}
+          </div>
+        </div>
+
+        <!-- Footer Action Button -->
+        <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+          ${game.isAvailable ? `
+            <button onclick="launchGame('${game.id}')" class="w-full py-2.5 px-4 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow transition text-xs sm:text-sm flex items-center justify-center gap-2">
+              <i class="fa-solid fa-circle-play text-amber-400"></i>
+              <span>▶️ 立即遊玩</span>
+            </button>
+          ` : `
+            <button disabled class="w-full py-2.5 px-4 bg-slate-200 text-slate-500 font-bold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 cursor-not-allowed">
+              <i class="fa-solid fa-clock"></i>
+              <span>籌備中 (即將上線)</span>
+            </button>
+          `}
+        </div>
+      `;
+      return card;
+    }
+
+    // Launch Game inside Modal using srcdoc
+    function launchGame(gameId) {
+      const game = GAMES_DATABASE.find(g => g.id === gameId);
+      if (!game || !game.isAvailable) return;
+
+      currentActiveGameId = gameId;
+
+      document.getElementById('modalGameTitle').innerText = game.title;
+      document.getElementById('modalTermBadge').innerText = (game.term === 1 ? '上學期' : '下學期') + ' • ' + game.chapter;
+
+      const iframe = document.getElementById('gameIframe');
+      
+      // CRITICAL FIX FOR "開不到內裡的遊戲內容":
+      // Assign embedded code directly to srcdoc!
+      iframe.srcdoc = game.htmlCode;
+
+      const modal = document.getElementById('gameModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    // Reload active iframe
+    function reloadGameIframe() {
+      if (!currentActiveGameId) return;
+      const game = GAMES_DATABASE.find(g => g.id === currentActiveGameId);
+      if (game) {
+        const iframe = document.getElementById('gameIframe');
+        iframe.srcdoc = game.htmlCode;
+      }
+    }
+
+    // Open active game in new tab using HTML Blob URL
+    function openGameInNewTab() {
+      if (!currentActiveGameId) return;
+      const game = GAMES_DATABASE.find(g => g.id === currentActiveGameId);
+      if (game && game.htmlCode) {
+        const blob = new Blob([game.htmlCode], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank');
+      }
+    }
+
+    // Close Game Modal
+    function closeGameModal() {
+      const modal = document.getElementById('gameModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      
+      // Clear iframe to stop audio/scripts
+      const iframe = document.getElementById('gameIframe');
+      iframe.srcdoc = '';
+      currentActiveGameId = null;
+    }
+
+
+    // Filter Buttons Switcher
+    function setFilter(filterType) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-900', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-slate-100', 'text-slate-700');
+      });
+
+      const activeBtn = document.getElementById('filter-' + filterType);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+        activeBtn.classList.add('bg-blue-900', 'text-white', 'shadow-sm');
+      }
+
+      renderGameCards(filterType, document.getElementById('searchInput').value);
+    }
+
+    // Search Input Trigger
+    function filterGames() {
+      const activeBtn = document.querySelector('.filter-btn.bg-blue-900');
+      const filterType = activeBtn ? activeBtn.id.replace('filter-', '') : 'all';
+      renderGameCards(filterType, document.getElementById('searchInput').value);
+    }
+
+    // Accessibility Controls
+    function setFontSize(size) {
+      document.body.classList.remove('font-size-standard', 'font-size-large', 'font-size-xlarge');
+      document.body.classList.add('font-size-' + size);
+
+      ['standard', 'large', 'xlarge'].forEach(s => {
+        const btn = document.getElementById('btn-font-' + s);
+        if (s === size) {
+          btn.className = "px-2 py-0.5 text-xs rounded bg-blue-600 text-white font-bold";
+        } else {
+          btn.className = "px-2 py-0.5 text-xs rounded hover:bg-slate-700 text-slate-200";
+        }
+      });
+    }
+
+    function toggleHighContrast() {
+      document.body.classList.toggle('high-contrast');
+    }
+
+    function speakPageGuide() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const text = "歡迎來到東涌天主教學校小學部，六年級數學教學遊戲專區。請點擊任何一個遊戲卡片上的「開始遊戲」按鈕，即可開始遊玩。";
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'zh-HK';
+        window.speechSynthesis.speak(msg);
+      } else {
+        alert("您的瀏覽器不支援語音朗讀功能。");
+      }
+    }
+
+    // Teacher Guide Modal Controls
+    function openGuideModal() {
+      const modal = document.getElementById('guideModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function closeGuideModal() {
+      const modal = document.getElementById('guideModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+
+    // Initialize Page
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGameCards('all');
+    });
+  </script>
+</body>
+</html>
